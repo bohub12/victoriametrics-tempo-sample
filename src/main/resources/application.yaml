@@ -9,4 +9,8 @@ management:
         include: "health,prometheus"
   otlp:
     tracing:
-      endpoint: http://localhost:4318/v1/traces
+      endpoint: http://localhost:4318/v1/traces     # trace data destination
+  tracing:
+    sampling:
+      probability: 1.0                              # every request is sent to the trace backend
+

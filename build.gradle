@@ -21,9 +21,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'io.micrometer:micrometer-registry-prometheus:latest.release'
 
-	// micrometer convert data to opentelemetry for tracing
+	// Micrometer 표준에 발생한 trace 데이터를 OpenTelemetry 포맷으로 변환
 	runtimeOnly 'io.micrometer:micrometer-tracing-bridge-otel'
-	// opentelemetry exporter - OTLP
+
+	// OpenTelemetry 의 trace data 를 OTLP (OpenTelemetry Protocol) 형식으로 외부에 전송하는 기능을 담당
 	runtimeOnly 'io.opentelemetry:opentelemetry-exporter-otlp'
 
 	implementation 'org.springframework.boot:spring-boot-starter-web'

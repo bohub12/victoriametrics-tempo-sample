@@ -1,14 +1,14 @@
-stream_over_http_enabled: true
+stream_over_http_enabled: true        # enable HTTP communication (default gRPC)
 server:
-  http_listen_port: 3200
-  log_level: info
+  http_listen_port: 3200              # tempo port
+#  log_level: info                     # tempo log level
 
-query_frontend:
-  search:
-    duration_slo: 5s
-    throughput_bytes_slo: 1.073741824e+09
-  trace_by_id:
-    duration_slo: 5s
+#query_frontend:
+#  search:
+#    duration_slo: 5s
+#    throughput_bytes_slo: 1.073741824e+09
+#  trace_by_id:
+#    duration_slo: 5s
 
 distributor:
   receivers:                           # this configuration will listen on all ports and protocols that tempo is capable of.
@@ -25,25 +25,25 @@ distributor:
         grpc:
     opencensus:
 
-ingester:
-  max_block_duration: 5m               # cut the headblock when this much time passes. this is being set for demo purposes and should probably be left alone normally
+#ingester:
+#  max_block_duration: 5m               # cut the headblock when this much time passes. this is being set for demo purposes and should probably be left alone normally
 
-compactor:
-  compaction:
-    block_retention: 1h                # overall Tempo trace retention. set for demo purposes
+#compactor:
+#  compaction:
+#    block_retention: 1h                # overall Tempo trace retention. set for demo purposes
 
 metrics_generator:
-  registry:
-    external_labels:
-      source: tempo
-      cluster: docker-compose
+#  registry:
+#    external_labels:
+#      source: tempo
+#      cluster: docker-compose
   storage:
-    path: /var/tempo/generator/wal
+    path: /var/tempo/generator/wal      # path to store the WAL (for metrics_generator metric)
     remote_write:
-      - url: http://victoriametrics:8428/api/v1/write
-        send_exemplars: true
+      - url: http://victoriametrics:8428/api/v1/write   # remote write metrics (endpoint)
+        send_exemplars: true                            #
   traces_storage:
-    path: /var/tempo/generator/traces
+    path: /var/tempo/generator/traces                   # path to store WAL (for trace data)
 
 storage:
   trace:
@@ -51,10 +51,10 @@ storage:
     wal:
       path: /var/tempo/wal             # where to store the wal locally
     local:
-      path: /var/tempo/blocks
+      path: /var/tempo/blocks          # where to store trace data
 
 overrides:
   defaults:
     metrics_generator:
-      processors: [service-graphs, span-metrics, local-blocks] # enables metrics generator
-      generate_native_histograms: both
+      processors: [service-graphs, span-metrics, local-blocks]  # enables metrics generator
+      generate_native_histograms: both                          # https://github.com/grafana/tempo/issues/3119
